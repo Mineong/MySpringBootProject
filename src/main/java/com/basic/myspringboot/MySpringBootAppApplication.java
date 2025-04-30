@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Bean;
 public class MySpringBootAppApplication {
 
     public static void main(String[] args) {
-//		SpringApplication.run(MySpringBootAppApplication.class, args);
+        //SpringApplication.run(MySpringBootAppApplication.class, args);
         SpringApplication application = new SpringApplication(MySpringBootAppApplication.class);
-//		기본적으로 WebApplicationType=WebApplication 이다.
+        //기본적으로 WebApplicationType 은 웹어플리케이션 이다.
         application.setWebApplicationType(WebApplicationType.SERVLET);
         application.run(args);
     }
@@ -20,4 +20,5 @@ public class MySpringBootAppApplication {
     public String hello() {
         return "hello springboot";
     }
+
 }
