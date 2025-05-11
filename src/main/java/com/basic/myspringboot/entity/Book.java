@@ -15,5 +15,4 @@ public class Book {
     private String isbn;
     private Integer price;
     private LocalDate publishDate;
-    // Getter/Setter, Constructor 생략
 }

@@ -1,8 +1,9 @@
 package com.basic.myspringboot.controller;
 
-import com.basic.myspringboot.entity.Book;
-import com.basic.myspringboot.exception.BusinessException;
-import com.basic.myspringboot.repository.BookRepository;
+import com.basic.myspringboot.data.BookDTO;
+import com.basic.myspringboot.service.BookService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,52 +11,47 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
-    private final BookRepository bookRepository;
 
-    public BookController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        return ResponseEntity.ok(bookRepository.save(book));
+    public ResponseEntity<BookDTO.BookResponse> create(@Valid @RequestBody BookDTO.BookCreateRequest req) {
+        return ResponseEntity.ok(bookService.createBook(req));
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookDTO.BookResponse> getAll() {
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-        return bookRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<BookDTO.BookResponse> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     @GetMapping("/isbn/{isbn}")
-    public Book getBookByIsbn(@PathVariable String isbn) {
-        return bookRepository.findByIsbn(isbn)
-                .orElseThrow(() -> new BusinessException("도서를 찾을 수 없습니다."));
+    public ResponseEntity<BookDTO.BookResponse> getByIsbn(@PathVariable String isbn) {
+        return ResponseEntity.ok(bookService.getBookByIsbn(isbn));
     }
 
     @GetMapping("/author/{author}")
-    public List<Book> getBooksByAuthor(@PathVariable String author) {
-        return bookRepository.findByAuthor(author);
+    public List<BookDTO.BookResponse> getByAuthor(@PathVariable String author) {
+        return bookService.getBooksByAuthor(author);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-        return bookRepository.findById(id).map(b -> {
-            book.setId(id);
-            return ResponseEntity.ok(bookRepository.save(book));
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<BookDTO.BookResponse> update(
+            @PathVariable Long id,
+            @Valid @RequestBody BookDTO.BookUpdateRequest req
+    ) {
+        return ResponseEntity.ok(bookService.updateBook(id, req));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        bookRepository.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 }
