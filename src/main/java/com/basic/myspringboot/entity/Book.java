@@ -1,5 +1,6 @@
 package com.basic.myspringboot.entity;
 
+import com.basic.myspringboot.entity.BookDetail;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -8,12 +9,14 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "books")
-@Getter @Setter
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @DynamicUpdate
 public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private Long id;
 
@@ -32,4 +35,6 @@ public class Book {
     @Column(nullable = false)
     private LocalDate publishDate;
 
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private BookDetail bookDetail;
 }
