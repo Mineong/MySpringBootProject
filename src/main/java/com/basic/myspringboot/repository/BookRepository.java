@@ -21,6 +21,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b JOIN FETCH b.bookDetail WHERE b.isbn = :isbn")
     Optional<Book> findByIsbnWithDetail(@Param("isbn") String isbn);
 
+    // 문자열 검색
     List<Book> findByAuthorContainingIgnoreCase(String author);
 
     List<Book> findByTitleContainingIgnoreCase(String title);

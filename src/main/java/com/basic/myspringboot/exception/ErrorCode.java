@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    // 📘 Book 관련 에러
     ISBN_DUPLICATE("Book already exists with ISBN: %s", HttpStatus.CONFLICT),
     BOOK_NOT_FOUND("Book not found with %s: %s", HttpStatus.NOT_FOUND),
     INVALID_PUBLISH_DATE("Book has invalid publish date: %s", HttpStatus.BAD_REQUEST),

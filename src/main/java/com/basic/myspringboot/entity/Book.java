@@ -14,11 +14,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicUpdate
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
-    private Long id;
+    private Long id; // PK
 
     @Column(nullable = false)
     private String title;
@@ -35,6 +35,7 @@ public class Book {
     @Column(nullable = false)
     private LocalDate publishDate;
 
+    // 1:1관계; Book에서 Detail을 봐야해서 양방향 관계를 줌
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private BookDetail bookDetail;
 }

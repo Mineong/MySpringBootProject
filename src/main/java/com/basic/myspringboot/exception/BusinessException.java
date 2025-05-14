@@ -11,7 +11,7 @@ public class BusinessException extends RuntimeException {
     private final HttpStatus httpStatus;
 
     public BusinessException(String message) {
-        this(message, HttpStatus.EXPECTATION_FAILED); // 기본값 417
+        this(message, HttpStatus.EXPECTATION_FAILED);
     }
 
     public BusinessException(String message, HttpStatus httpStatus) {

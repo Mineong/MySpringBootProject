@@ -27,6 +27,7 @@ public class BookDTO {
         private String author;
 
         @NotBlank(message = "ISBN is required")
+        // 정규표현식: 문자열 형식 검색 또는 검사할 때 사용
         @Pattern(regexp = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$",
                 message = "ISBN must be valid (10 or 13 digits, with or without hyphens)")
         private String isbn;
