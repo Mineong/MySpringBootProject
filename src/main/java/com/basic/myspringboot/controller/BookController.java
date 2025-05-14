@@ -4,40 +4,53 @@ import com.basic.myspringboot.controller.dto.BookDTO;
 import com.basic.myspringboot.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
-    private final BookService bookService;
 
-    @PostMapping
-    public ResponseEntity<BookDTO.Response> createBook(@RequestBody @Valid BookDTO.Request request) {
-        return ResponseEntity.ok(bookService.createBook(request));
-    }
+    private final BookService bookService;
 
     @GetMapping
     public ResponseEntity<List<BookDTO.Response>> getAllBooks() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+        List<BookDTO.Response> books = bookService.getAllBooks();
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BookDTO.Response> getBookById(@PathVariable Long id) {
+        BookDTO.Response book = bookService.getBookById(id);
+        return ResponseEntity.ok(book);
     }
 
     @GetMapping("/isbn/{isbn}")
     public ResponseEntity<BookDTO.Response> getBookByIsbn(@PathVariable String isbn) {
-        return ResponseEntity.ok(bookService.getBookByIsbn(isbn));
+        BookDTO.Response book = bookService.getBookByIsbn(isbn);
+        return ResponseEntity.ok(book);
     }
 
     @GetMapping("/search/author")
     public ResponseEntity<List<BookDTO.Response>> getBooksByAuthor(@RequestParam String author) {
-        return ResponseEntity.ok(bookService.getBooksByAuthor(author));
+        List<BookDTO.Response> books = bookService.getBooksByAuthor(author);
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/search/title")
     public ResponseEntity<List<BookDTO.Response>> getBooksByTitle(@RequestParam String title) {
-        return ResponseEntity.ok(bookService.getBooksByTitle(title));
+        List<BookDTO.Response> books = bookService.getBooksByTitle(title);
+        return ResponseEntity.ok(books);
+    }
+
+    @PostMapping
+    public ResponseEntity<BookDTO.Response> createBook(@Valid @RequestBody BookDTO.Request request) {
+        BookDTO.Response createdBook = bookService.createBook(request);
+        return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
