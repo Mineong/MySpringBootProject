@@ -39,4 +39,18 @@ public class BookController {
     public ResponseEntity<List<BookDTO.Response>> getBooksByTitle(@RequestParam String title) {
         return ResponseEntity.ok(bookService.getBooksByTitle(title));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookDTO.Response> updateBook(
+            @PathVariable Long id,
+            @Valid @RequestBody BookDTO.Request request) {
+        BookDTO.Response updatedBook = bookService.updateBook(id, request);
+        return ResponseEntity.ok(updatedBook);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build();
+    }
 }
