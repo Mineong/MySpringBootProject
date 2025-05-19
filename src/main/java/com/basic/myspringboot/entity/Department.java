@@ -28,6 +28,8 @@ public class Department {
 
     // 양방향에서 Department가 Student를 참조할 수 있도록 FK에 해당하는 필드명 mappedBy에 설정한다.
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @Builder.Default
     private List<Student> students = new ArrayList<>();
     
     // Helper methods
