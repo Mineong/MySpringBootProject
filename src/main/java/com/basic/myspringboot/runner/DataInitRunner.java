@@ -37,7 +37,7 @@ public class DataInitRunner implements CommandLineRunner {
 
         // Create departments
         List<Department> departments = createDepartments();
-        
+
         // Create students
         createStudents(departments);
 
@@ -144,7 +144,7 @@ public class DataInitRunner implements CommandLineRunner {
     }
 
     private Student createStudentWithDetail(String name, String studentNumber, Department department,
-                                         String address, String phoneNumber, String email, LocalDate dateOfBirth) {
+                                            String address, String phoneNumber, String email, LocalDate dateOfBirth) {
         StudentDetail detail = StudentDetail.builder()
                 .address(address)
                 .phoneNumber(phoneNumber)
